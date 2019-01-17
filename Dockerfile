@@ -5,4 +5,6 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 WORKDIR /workspace
 RUN git clone https://github.com/hashicorp/memberlist.git
 WORKDIR /workspace/memberlist
+RUN sed -i s?"go get -t -d -v ./..."?"-@go get -t -d -v ./..."?g Makefile
+RUN sed -i s?"echo \$(DEPS) | xargs -n1 go get -d"?"-@echo \$(DEPS) | xargs -n1 go get -d"? Makefile
 RUN make deps
