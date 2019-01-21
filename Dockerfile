@@ -1,10 +1,16 @@
-FROM golang:latest
+FROM lowyard/gossip-dev:latest
 RUN apt-get update
-RUN apt-get install -y git-core 
-RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+RUN apt-get install -y vim
+RUN apt-get install -y net-tools 
 WORKDIR /go/src
-RUN git clone https://github.com/hashicorp/memberlist.git
-WORKDIR /go/src/memberlist
-RUN sed -i s?"go get -t -d -v ./..."?"-@go get -t -d -v ./..."?g Makefile
-RUN sed -i s?"echo \$(DEPS) | xargs -n1 go get -d"?"-@echo \$(DEPS) | xargs -n1 go get -d"? Makefile
-RUN make deps
+RUN echo 004
+#RUN git clone -v https://github.com/humstarman/core.git
+ADD deps/core core/
+WORKDIR /workspace 
+ADD src/main.go /workspace/
+#RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /usr/local/bin/agent agent.go
+#ADD src/member.go /workspace/
+#RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /usr/local/bin/member member.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /usr/local/bin/main .
+CMD ["/usr/local/bin/main"]
+#CMD ["tail","-f","/dev/null"]

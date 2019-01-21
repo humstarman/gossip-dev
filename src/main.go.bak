@@ -1,0 +1,46 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"memberlist"
+	"time"
+	//"strings"
+)
+
+var hosts = flag.String("j", "127.0.0.1", "Ip to join")
+
+func init() {
+	flag.Parse()
+}
+
+func main() {
+	//vals := strings.Split(*hosts, ",")
+	/* Create the initial memberlist from a safe configuration.
+	   Please reference the godoc for other default config types.
+	   http://godoc.org/github.com/hashicorp/memberlist#Config
+	*/
+	list, err := memberlist.Create(memberlist.DefaultLocalConfig())
+	if err != nil {
+		panic("Failed to create memberlist: " + err.Error())
+	}
+
+	// Join an existing cluster by specifying at least one known member.
+	n, err := list.Join([]string{*hosts})
+	if err != nil {
+		panic("Failed to join cluster: " + err.Error())
+	}
+	fmt.Printf("Number in Cluster: %v\n", n)
+
+	// Ask for members of the cluster
+	for _, member := range list.Members() {
+		fmt.Printf("Member: %s %s\n", member.Name, member.Addr)
+	}
+	for {
+		for _, member := range list.Members() {
+			fmt.Printf("Member: %s %s\n", member.Name, member.Addr)
+		}
+		fmt.Println("==========")
+		time.Sleep(3 * time.Second)
+	}
+}
