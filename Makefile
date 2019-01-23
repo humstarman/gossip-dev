@@ -36,3 +36,6 @@ sed:
 
 clean:
 	@kubectl delete -f ${MANIFEST}/.
+
+po: 
+	@kubectl get pods -o wide

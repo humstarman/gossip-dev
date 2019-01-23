@@ -2,9 +2,12 @@ FROM lowyard/gossip-dev:latest
 RUN apt-get update
 RUN apt-get install -y vim
 RUN apt-get install -y net-tools 
+RUN go get -v github.com/hashicorp/raft
+RUN go get -v github.com/hashicorp/raft-boltdb
+RUN go get -v github.com/boltdb/bolt
 WORKDIR /go/src
-RUN echo 004
 #RUN git clone -v https://github.com/humstarman/core.git
+RUN echo 0262
 ADD deps/core core/
 WORKDIR /workspace 
 ADD src/main.go /workspace/
