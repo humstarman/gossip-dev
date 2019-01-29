@@ -1,19 +1,28 @@
 package main
 
 import (
-	"core"
+	"log"
 	"flag"
+	"core"
 )
 
-var cidr = flag.String("c", "", "the CIDR")
+var (
+	cidr = flag.String("cidr", "", "Specify the CIDR, or define an example IP")
+	join = flag.String("join", "", "Specify the IP or IPs (in term of CSV) to join")
+)
 
 func init() {
 	flag.Parse()
 }
 
 func main() {
-	c, _ := core.New()
-	c.Cidr(*cidr)
-	c.Config()
-	c.Start()
+	config := core.Config{
+		Cidr: *cidr,
+		Join: *join,
+	}
+	c, err := core.Create(config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Fatal(c.Start())
 }

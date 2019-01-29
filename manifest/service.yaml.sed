@@ -9,5 +9,5 @@ spec:
     component: {{.name}}
   ports:
     - port: 80 
-      targetPort: 80 
+      targetPort: {{.port}} 
       name: http 

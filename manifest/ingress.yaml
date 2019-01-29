@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gossip-dev-ing 
+  namespace: default 
+spec:
+  rules:
+  - host: gmt.demo.me 
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: gossip-dev-headless 
+          servicePort: http 

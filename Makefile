@@ -10,6 +10,8 @@ SVC=${NAME}-headless
 IMAGE_PULL_POLICY=Always
 SERVICE_ACCOUNT=admin
 REPLICAS=3
+PORT=18080
+URL=gmt.demo.me
 
 all: build push deploy
 
@@ -33,6 +35,8 @@ sed:
 	@${TOOLS}/sed.sh -m ${MANIFEST} -t {{.service.account}} -v ${SERVICE_ACCOUNT}
 	@${TOOLS}/sed.sh -m ${MANIFEST} -t {{.svc}} -v ${SVC}
 	@${TOOLS}/sed.sh -m ${MANIFEST} -t {{.replicas}} -v ${REPLICAS}
+	@${TOOLS}/sed.sh -m ${MANIFEST} -t {{.port}} -v ${PORT}
+	@${TOOLS}/sed.sh -m ${MANIFEST} -t {{.url}} -v ${URL}
 
 clean:
 	@kubectl delete -f ${MANIFEST}/.
