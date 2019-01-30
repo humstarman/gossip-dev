@@ -1,7 +1,7 @@
 FROM lowyard/golang-dev:latest
 WORKDIR /go/src
 #RUN git clone -v -b dev https://github.com/humstarman/core.git
-RUN echo 0388
+RUN echo 0412
 ADD deps/core core/
 WORKDIR /go/src/core
 WORKDIR /workspace 
